@@ -244,7 +244,7 @@ func convertGBKToUTF8(tbl_map map[uint64]uint64, from []byte, to []byte) (int, e
                 if from[i]&0x80 == 0 { // ascii
                         i++
                 } else {
-                        if i < fromLen &&(from[i+1] > 0x39 || from[i+1] < 0x30) {
+                        if i < fromLen - 1 &&(from[i+1] > 0x39 || from[i+1] < 0x30) {
                                 i += 2
                         } else {
                                 i += 4
@@ -262,12 +262,12 @@ func convertGBKToUTF8(tbl_map map[uint64]uint64, from []byte, to []byte) (int, e
                         tmpGbk = uint64(from[i])
                         i++
                 } else {
-                        if i < fromLen &&( from[i+1] > 0x39 || from[i+1] < 0x30) {
+                        if i < fromLen - 1 &&( from[i+1] > 0x39 || from[i+1] < 0x30) {
                                 tmpGbk = uint64(from[i+1])
                                 tmpGbk |= uint64(from[i]) << 8
                                 i += 2
                         } else {
-                                if i < fromLen {
+                                if i < fromLen - 4{
                                         tmpGbk = uint64(from[i+3])
                                         tmpGbk |= uint64(from[i+2]) << 8
                                         tmpGbk |= uint64(from[i+1]) << 16
